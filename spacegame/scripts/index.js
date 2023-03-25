@@ -3,6 +3,10 @@ console.log('JS Loaded');
 const canvas = document.getElementById('spaceGame');
 const ctx = canvas.getContext('2d');
 
+const spaceship = new Spaceship();
+
+const game = new Game(spaceship);
+
 function start() {
   document.getElementById('startMenu').style.display = 'none';
   game.start();
@@ -17,9 +21,7 @@ backgroundImage.addEventListener('load', () => {
   background = new Background(backgroundImage);
 });
 
-const spaceship = new Spaceship();
-
-document.addEventListener('keydown', () => {
+document.addEventListener('keydown', event => {
   event.preventDefault();
   if (event.code === 'Space') {
     spaceship.shoot();
@@ -45,5 +47,3 @@ document.addEventListener('keyup', () => {
   spaceship.speedX = 0;
   spaceship.speedY = 0;
 });
-
-const game = new Game(spaceship);

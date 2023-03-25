@@ -35,16 +35,6 @@ class Game {
   updateGameArea = () => {
     this.clear();
     background.updateBackground();
-    Spaceship.prototype.moveBullets = function () {
-      for (let i = 0; i < this.bullets.length; i++) {
-        const bullet = this.bullets[i];
-        bullet.move();
-        if (bullet.y < 0) {
-          this.bullets.splice(i, 1);
-          i--;
-        }
-      }
-    };
     this.spaceship.move();
     this.spaceship.draw();
     this.spaceship.moveBullets();
@@ -70,7 +60,7 @@ class Game {
       });
     });
 
-    this.checkGameOver();
+    this.checkGameOver(this.spaceship);
   };
 
   spawnEnemies = () => {
@@ -89,36 +79,16 @@ class Game {
     }
   };
 
-  animate() {
-    requestAnimationFrame(animate);
-    enemies.forEach(enemy => {
-      enemy.draw();
-      enemy.update();
-      if (collisionWith(enemy)) {
-        narrowPhase(enemy);
-      }
-    });
-  }
-
-  checkGameOver = () => {
+  checkGameOver = spaceship => {
     const crashed = this.enemies.some(enemy => {
-      return this.spaceship.collisionWith(enemy);
+      return enemy.collisionWith(spaceship);
     });
 
     if (crashed) {
       this.stop();
+      console.log(crashed);
+      console.log(this.spaceship);
+      console.log(this.enemies);
     }
-
-    /* if (this.lives === 0) {
-       this.stop();
-    }*/
-  };
-  collisionWith = enemy => {
-    return !(
-      this.spaceship.y + this.spaceship.height < enemy.y ||
-      this.spaceship.y > enemy.y + enemy.height ||
-      this.spaceship.x + this.spaceship.width < enemy.x ||
-      this.spaceship.x > enemy.x + enemy.width
-    );
   };
 }

@@ -6,6 +6,8 @@ class Spaceship {
     this.speedX = 0;
     this.speedY = 0;
     this.bullets = [];
+    this.width = 100;
+    this.height = 100;
 
     const img = new Image();
     img,
@@ -27,32 +29,43 @@ class Spaceship {
   };
 
   draw() {
-    ctx.drawImage(this.img, this.x, this.y, 100, 100);
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     this.bullets.forEach(bullet => bullet.draw());
   }
 
-  collisionWith = enemy => {
-    const shipLeft = this.x;
-    const shipRight = this.x + this.width;
-    const shipTop = this.y;
-    const shipBottom = this.y + this.height;
+  //Left border is at x position
+  left = () => {
+    return this.x;
+  };
 
-    const enemyLeft = enemy.x;
-    const enemyRight = enemy.x + enemy.width;
-    const enemyTop = enemy.y;
-    const enemyBottom = enemy.y + enemy.height;
+  //Right border is the x position + the width of the element
+  right = () => {
+    return this.x + this.width;
+  };
+  //Top border is on the Y position
+  top = () => {
+    return this.y;
+  };
 
-    return (
-      shipLeft < enemyRight &&
-      shipRight > enemyLeft &&
-      shipTop < enemyBottom &&
-      shipBottom > enemyTop
-    );
+  //Bottom border is at Y position plus the height of the element
+  bottom = () => {
+    return this.y + this.heigth;
   };
 
   shoot = () => {
     const bullet = new Bullet(this.x + 50, this.y + 40);
     this.bullets.push(bullet);
+  };
+
+  moveBullets = () => {
+    for (let i = 0; i < this.bullets.length; i++) {
+      const bullet = this.bullets[i];
+      bullet.move();
+      if (bullet.y < 0) {
+        this.bullets.splice(i, 1);
+        i--;
+      }
+    }
   };
 }
 
@@ -72,5 +85,24 @@ class Bullet {
   draw = () => {
     ctx.fillStyle = 'yellow';
     ctx.fillRect(this.x, this.y, this.width, this.height);
+  };
+
+  //Left border is at x position
+  left = () => {
+    return this.x;
+  };
+
+  //Right border is the x position + the width of the element
+  right = () => {
+    return this.x + this.width;
+  };
+  //Top border is on the Y position
+  top = () => {
+    return this.y;
+  };
+
+  //Bottom border is at Y position plus the height of the element
+  bottom = () => {
+    return this.y + this.heigth;
   };
 }
