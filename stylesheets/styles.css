@@ -4,6 +4,12 @@ body {
 h1 {
   color: skyblue;
 }
+h3 {
+  color: skyblue;
+}
+p {
+  color: darksalmon;
+}
 button {
   background-color: purple;
   color: yellow;

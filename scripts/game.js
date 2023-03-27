@@ -3,6 +3,7 @@ class Game {
     this.spaceship = spaceship;
     this.interval = undefined;
     this.frames = 0;
+    this.points = 0;
     this.enemies = [];
   }
 
@@ -19,10 +20,12 @@ class Game {
 
   score = () => {
     this.frames += 1;
-    const points = Math.floor(this.frames / 15);
+    let shownScore = Math.floor(this.frames / 15);
     ctx.font = '20px Arial';
     ctx.fillStyle = 'red';
-    ctx.fillText(`Score: ${points}`, 200, 50);
+    ctx.fillText(`Score: ${shownScore}`, 200, 50);
+    if (this.checkShootEnemies === true) {
+    }
   };
 
   health = () => {
@@ -30,6 +33,9 @@ class Game {
     ctx.font = '20px Arial';
     ctx.fillStyle = 'red';
     ctx.fillText(`Lives: ${lives}`, 600, 50);
+    if (this.checkGameOver === true) {
+      lives - 1;
+    }
   };
 
   updateGameArea = () => {
@@ -58,7 +64,7 @@ class Game {
         Math.floor(Math.random() * canvas.clientHeight),
         60,
         50,
-        1,
+        1.8,
         enemyImage
       );
       this.enemies.push(enemy);
@@ -74,21 +80,33 @@ class Game {
       this.stop();
       ctx.font = '50px Arial';
       ctx.fillStyle = 'white';
-      ctx.fillText('YOU LOSE', 400, 350);
+      ctx.fillText('Game Over', 400, 350);
+
+      let btn = document.createElement('button');
+      btn.innerHTML = 'Restart';
+      btn.addEventListener('click', () => {
+        location.reload();
+      });
+      document.body.appendChild(btn);
     }
   };
 
   checkShootEnemies = () => {
-    this.enemies.forEach(enemy => {
-      this.spaceship.bullets.forEach(bullet => {
+    let collided;
+    this.enemies.some(enemy => {
+      this.spaceship.bullets.some(bullet => {
         if (bullet.collisionWith(enemy)) {
           this.spaceship.bullets.splice(
             this.spaceship.bullets.indexOf(bullet),
             1
           );
+          collided = true;
           this.enemies.splice(this.enemies.indexOf(enemy), 1);
         }
       });
     });
+    if (collided) {
+      this.frames += 750;
+    }
   };
 }
