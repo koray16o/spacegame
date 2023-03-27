@@ -17,7 +17,7 @@ class Spaceship {
         this.draw();
       });
 
-    img.src = 'http://www.clipartbest.com/cliparts/nTE/KoE/nTEKoE8TA.gif';
+    img.src = '../images/spaceship-good.png';
   }
 
   move = () => {
@@ -49,7 +49,7 @@ class Spaceship {
 
   //Bottom border is at Y position plus the height of the element
   bottom = () => {
-    return this.y + this.heigth;
+    return this.y + this.height;
   };
 
   shoot = () => {
@@ -103,6 +103,17 @@ class Bullet {
 
   //Bottom border is at Y position plus the height of the element
   bottom = () => {
-    return this.y + this.heigth;
+    return this.y + this.height;
+  };
+
+  collisionWith = enemy => {
+    // we will check if they hit
+
+    return !(
+      this.bottom() < enemy.top() ||
+      this.top() > enemy.bottom() ||
+      this.right() < enemy.left() ||
+      this.left() > enemy.right()
+    );
   };
 }

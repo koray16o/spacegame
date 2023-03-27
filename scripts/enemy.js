@@ -10,7 +10,7 @@ enemyImage1.src = '../images/monster-good.png';
 const enemyImage2 = new Image();
 enemyImage2.src = '../images/asteroid-good.png';
 const enemyImage3 = new Image();
-enemyImage3.src = '../images/monster-2.png';
+enemyImage3.src = '../images/monster-2good.png';
 enemyImages.push(enemyImage1, enemyImage2, enemyImage3);
 
 class Enemy {

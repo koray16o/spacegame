@@ -26,7 +26,7 @@ class Game {
   };
 
   health = () => {
-    const lives = 3;
+    const lives = 1;
     ctx.font = '20px Arial';
     ctx.fillStyle = 'red';
     ctx.fillText(`Lives: ${lives}`, 600, 50);
@@ -44,22 +44,8 @@ class Game {
     this.enemies.forEach(enemy => {
       enemy.draw();
       enemy.update();
-      this.spaceship.bullets.forEach(bullet => {
-        if (
-          bullet.x < enemy.x + enemy.width &&
-          bullet.x + bullet.width > enemy.x &&
-          bullet.y < enemy.y + enemy.height &&
-          bullet.y + bullet.height > enemy.y
-        ) {
-          this.spaceship.bullets.splice(
-            this.spaceship.bullets.indexOf(bullet),
-            1
-          );
-          this.enemies.splice(this.enemies.indexOf(enemy), 1);
-        }
-      });
     });
-
+    this.checkShootEnemies();
     this.checkGameOver(this.spaceship);
   };
 
@@ -69,8 +55,8 @@ class Game {
         enemyImages[Math.floor(Math.random() * enemyImages.length)];
       const enemy = new Enemy(
         canvas.clientWidth,
-        Math.random() * canvas.clientHeight,
-        70,
+        Math.floor(Math.random() * canvas.clientHeight),
+        60,
         50,
         1,
         enemyImage
@@ -86,9 +72,23 @@ class Game {
 
     if (crashed) {
       this.stop();
-      console.log(crashed);
-      console.log(this.spaceship);
-      console.log(this.enemies);
+      ctx.font = '50px Arial';
+      ctx.fillStyle = 'white';
+      ctx.fillText('YOU LOSE', 400, 350);
     }
+  };
+
+  checkShootEnemies = () => {
+    this.enemies.forEach(enemy => {
+      this.spaceship.bullets.forEach(bullet => {
+        if (bullet.collisionWith(enemy)) {
+          this.spaceship.bullets.splice(
+            this.spaceship.bullets.indexOf(bullet),
+            1
+          );
+          this.enemies.splice(this.enemies.indexOf(enemy), 1);
+        }
+      });
+    });
   };
 }

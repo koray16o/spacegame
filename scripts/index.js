@@ -23,10 +23,6 @@ backgroundImage.addEventListener('load', () => {
 
 document.addEventListener('keydown', event => {
   event.preventDefault();
-  if (event.code === 'Space') {
-    spaceship.shoot();
-  }
-
   switch (event.key) {
     case 'ArrowUp':
       spaceship.speedY -= 1;
@@ -39,6 +35,9 @@ document.addEventListener('keydown', event => {
       break;
     case 'ArrowRight':
       spaceship.speedX += 1;
+      break;
+    case ' ':
+      spaceship.shoot();
       break;
   }
 });
