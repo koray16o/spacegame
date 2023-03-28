@@ -3,6 +3,8 @@ console.log('JS Loaded');
 const canvas = document.getElementById('spaceGame');
 const ctx = canvas.getContext('2d');
 
+let audio = new Audio('../images/ES_Laser Gun Fire 5 - SFX Producer.mp3');
+
 const spaceship = new Spaceship();
 
 const game = new Game(spaceship);
@@ -38,6 +40,8 @@ document.addEventListener('keydown', event => {
       break;
     case ' ':
       spaceship.shoot();
+      audio.play();
+
       break;
   }
 });

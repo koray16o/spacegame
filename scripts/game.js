@@ -56,7 +56,7 @@ class Game {
   };
 
   spawnEnemies = () => {
-    if (Math.random() > 0.99) {
+    if (Math.random() > 0.95) {
       const enemyImage =
         enemyImages[Math.floor(Math.random() * enemyImages.length)];
       const enemy = new Enemy(
